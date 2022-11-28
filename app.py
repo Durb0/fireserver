@@ -22,8 +22,8 @@ def test_connect():
 def getOptions():
     print('getCategories')
     categories = getCategories()
-    nbCrewMan = random.randrange(1, 5)
-    nbChef = random.randrange(1, 5)
+    nbCrewMan = random.randrange(5, 10)
+    nbChef = random.randrange(2, 5)
     trucks = [getTruck('VSAV'),getTruck('VL'),getTruck('FPT')]
     print('send Options')
     emit('Options',{
