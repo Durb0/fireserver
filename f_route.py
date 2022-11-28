@@ -1,6 +1,6 @@
 from flask import render_template
 from app import app
-import f_database
+import card as card
 
 
 @app.route("/")
@@ -9,8 +9,8 @@ def index():
 
 @app.route("/InterventionCards")
 def getInterventionCards():
-    return f_database.getInterventionCards().__str__()
+    return card.getInterventionCards().__str__()
 
 @app.route("/InterventionCards/<int:id>")
 def getInterventionCard(id):
-    return f_database.getInterventionCard(id).__str__()
+    return card.getInterventionCard(id).__str__()
