@@ -1,5 +1,8 @@
 from model.main import Engine
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import func
+
+import random
 
 def getCategories():
     from model.category import Category
@@ -19,5 +22,19 @@ def getTruck(str):
         return truck.toJson()
 
 
+def drawInterventionBaseCard():
+    from model.card import InterventionCard
+    from model.enums import PositionCard
+
+    with Session(Engine) as session:
+        card = session.query(InterventionCard).filter(InterventionCard.position == PositionCard.BASE).order_by(func.random()).first()
+        return card.toJson()
+
+
+
 if __name__ == "__main__":
     print(getCategories())
+    print('###################################"')
+    print(drawInterventionBaseCard())
+    print('###################################"')
+    print(getTruck('VSAV'))

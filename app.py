@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from service import getCategories, getTruck
+from service import getCategories, getTruck, drawInterventionBaseCard
 
 import random
 
@@ -32,6 +32,13 @@ def getOptions():
         'nbChef' : nbChef,
         'trucks' : trucks
         })
+
+@socketio.on('drawInterventionBaseCard')
+def handle_drawInterventionBaseCard():
+    print('drawCard')
+    card = drawInterventionBaseCard()
+    print('send drawCard')
+    emit('InterventionCard', card)
 
 
 @socketio.on('disconnect')

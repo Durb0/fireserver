@@ -14,11 +14,20 @@ class Card(main.Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     description = Column(String)
-    position = Column(Enum(enums.PositionCard))
+    position:enums.PositionCard = Column(Enum(enums.PositionCard))
     time_before_trigger = Column(Integer)
 
     def __repr__(self):
         return f'Card({self.id}, {self.title}, {self.description}, {self.position})'
+
+    def toJson(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'position': self.position.value,
+            'time_before_trigger': self.time_before_trigger
+        }
 
 class InformationCard(Card):
     __tablename__ = 'information_cards'
@@ -28,6 +37,15 @@ class InformationCard(Card):
 
     def __repr__(self):
         return f'InformationCard({self.id})'
+    
+    def toJson(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'position': self.position.value,
+            'time_before_trigger': self.time_before_trigger
+        }
 
 association_intervention_category = Table(
     'association_intervention_category', main.Base.metadata,
@@ -44,11 +62,39 @@ class InterventionCard(Card):
     ratio_critical_failure = Column(Integer)
     categories = relationship("Category", secondary=association_intervention_category)
 
+    def __repr__(self):
+        return f'InterventionCard({self.id})'
+
+    def toJson(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'position': self.position.value,
+            'time_before_trigger': self.time_before_trigger,
+            'ratio_success': self.ratio_success,
+            'ratio_critical_success': self.ratio_critical_success,
+            'ratio_critical_failure': self.ratio_critical_failure,
+            'categories': [category.toJson() for category in self.categories]
+        }
+
 
 class DilemmeCard(Card):
     __tablename__ = 'dilemme_cards'
 
     id = Column(Integer, ForeignKey(Card.id), primary_key=True)
+
+    def __repr__(self):
+        return f'DilemmeCard({self.id})'
+
+    def toJson(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'position': self.position.value,
+            'time_before_trigger': self.time_before_trigger
+        }
 
 class AssociationNextCard(main.Base):
     __tablename__ = 'association_next_card'
