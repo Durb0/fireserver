@@ -23,9 +23,13 @@ def hello_world():
 
 @app.route('/truck/<name>.svg')
 def getTruckImage(name):
-    svg = etree.parse(f'ressources/trucks/{name}.svg')
-    return etree.tostring(svg, pretty_print=True, encoding='unicode')
-
+    #it's a call to the svg file
+    #we need to return it without head and body
+    #the svg file is in ressources/truck
+    #the name is the name of the truck
+    #the file is a svg file
+    svg = etree.parse(f'resources/truck/{name}.svg')
+    return etree.tostring(svg.getroot(), pretty_print=True, encoding='unicode')
 
 #manager = Manager(app)
 
