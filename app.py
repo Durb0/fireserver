@@ -2,6 +2,8 @@ from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from service import getCategories, getTruck, drawInterventionBaseCard
+#from flask_script import Manager
+
 
 import random
 
@@ -10,9 +12,12 @@ import model
 app = Flask(__name__)
 CORS(app)
 
+
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*", logger=True, engineio_logger=True)
 
+
+#manager = Manager(app)
 
 @socketio.on('connect')
 def test_connect():
@@ -47,5 +52,10 @@ def test_disconnect():
 
 #model.truck.createTrucks()
 
-socketio.run(app, host= '0.0.0.0', port=5000, debug=True)
 
+#manager.run()
+
+if __name__ == '__main__':
+    from waitress import serve
+    #serve(app, host='0.0.0.0', port=5000)
+    socketio.run(app, host= '0.0.0.0', port=5000, debug=True)
