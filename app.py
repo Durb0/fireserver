@@ -6,6 +6,7 @@ from service import getCategories, getTruck, drawInterventionBaseCard
 
 
 import random
+from lxml import etree
 
 import model
 
@@ -15,6 +16,15 @@ CORS(app)
 
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*", logger=True, engineio_logger=True)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+@app.route('/truck/<name>.svg')
+def getTruckImage(name):
+    svg = etree.parse(f'ressources/trucks/{name}.svg')
+    return etree.tostring(svg, pretty_print=True, encoding='unicode')
 
 
 #manager = Manager(app)
