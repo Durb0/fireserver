@@ -30,6 +30,11 @@ def getListOfTruckName():
         trucks:List[Truck] = session.query(Truck).all()
         return [truck.name for truck in trucks]
 
+def getListOfTruckFile():
+    #return the list of truck in static/truck
+    import os
+    return [f.split('.')[0] for f in os.listdir('static/truck') if os.path.isfile(os.path.join('static/truck', f))]
+
 def drawInterventionBaseCard():
     from model.card import InterventionCard
     from model.enums import PositionCard

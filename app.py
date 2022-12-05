@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from service import getCategories, getTruck, drawInterventionBaseCard, getListOfTruckName
+from service import getCategories, getTruck, drawInterventionBaseCard, getListOfTruckFile
 #from flask_script import Manager
 
 
@@ -27,9 +27,8 @@ def hello_world():
 
 @app.route('/truck/<name>.svg')
 def getTruckImage(name):
-    listOfTruckName = getListOfTruckName()
-    return app.send_static_file(f'truck/{name}.svg') if name in listOfTruckName else app.send_static_file('truck/None.svg')
-#manager = Manager(app)
+    print(getListOfTruckFile())
+    return app.send_static_file(f'truck/{name}.svg') if name in getListOfTruckFile() else app.send_static_file('truck/None.svg')
 
 @socketio.on('connect')
 def test_connect():
