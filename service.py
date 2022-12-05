@@ -1,3 +1,4 @@
+from typing import List
 from model.main import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import func
@@ -21,6 +22,13 @@ def getTruck(str):
         truck = session.query(Truck).filter(Truck.name == str).first()
         return truck.toJson()
 
+
+def getListOfTruckName():
+    from model.truck import Truck
+
+    with Session(Engine) as session:
+        trucks:List[Truck] = session.query(Truck).all()
+        return [truck.name for truck in trucks]
 
 def drawInterventionBaseCard():
     from model.card import InterventionCard
