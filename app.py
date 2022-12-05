@@ -19,7 +19,7 @@ socketio.init_app(app, cors_allowed_origins="*", logger=True, engineio_logger=Tr
 
 @app.rout("/caca")
 def caca():
-    return "caca"
+    return "caca prout"
 
 @app.route('/')
 def hello_world():
