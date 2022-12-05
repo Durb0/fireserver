@@ -17,7 +17,7 @@ CORS(app)
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*", logger=True, engineio_logger=True)
 
-@app.rout("/caca")
+@app.route("/caca")
 def caca():
     return "caca prout"
 
