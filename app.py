@@ -17,6 +17,10 @@ CORS(app)
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*", logger=True, engineio_logger=True)
 
+@app.rout("/caca")
+def caca():
+    return "caca"
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
