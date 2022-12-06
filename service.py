@@ -43,6 +43,18 @@ def drawInterventionBaseCard():
         card = session.query(InterventionCard).filter(InterventionCard.position == PositionCard.BASE).order_by(func.random()).first()
         return card.toJson()
 
+def drawNextCard(id:int, level:int):
+    from model.card import InterventionCard, AssociationNextCard, InformationCard, DilemmeCard
+    from model.enums import PositionCard, RelationLevel
+
+    lvl = RelationLevel.intToStr(level)
+    with Session(Engine) as session:
+        nextCards = session.query(AssociationNextCard).filter(AssociationNextCard.card_id == id, AssociationNextCard.level == lvl).all()
+        nextCard = random.choice(nextCards)
+        #the card can be an interventionCard, a InformationCard or a DilemmeCard
+        card = session.query(InterventionCard).filter(InterventionCard.id == nextCard.next_card_id).first() or session.query(InformationCard).filter(InformationCard.id == nextCard.next_card_id).first() or session.query(DilemmeCard).filter(DilemmeCard.id == nextCard.next_card_id).first()
+        return card.toJson(), card.__tablename__
+
 
 
 if __name__ == "__main__":

@@ -31,3 +31,19 @@ class RelationLevel(Enum):
             print("Error in RelationLevel.get()")
             return None
 
+    def intToStr(int: int):
+        if int == 20:
+            return "CRITICAL_SUCCESS"
+        elif int == 10:
+            return "SUCCESS"
+        elif int == -10:
+            return "FAILURE"
+        elif int == -20:
+            return "CRITICAL_FAILURE"
+        elif int == 0:
+            return "REFUSAL"
+        elif int == -30:
+            return "CRITICAL_REFUSAL"
+        else:
+            print("Error in RelationLevel.intToStr()")
+            return None

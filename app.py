@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-from service import getCategories, getTruck, drawInterventionBaseCard, getListOfTruckFile
+from service import getCategories, getTruck, drawInterventionBaseCard, getListOfTruckFile, drawNextCard
 #from flask_script import Manager
 
 
@@ -55,6 +55,23 @@ def handle_drawInterventionBaseCard():
     card = drawInterventionBaseCard()
     print('send drawCard')
     emit('InterventionCard', card)
+
+@socketio.on('drawNextCard')
+def handle_drawNextCard(id, level):
+    print('drawNextCard')
+    print(id, level)
+    card, type = drawNextCard(id, level)
+    if type == 'intervention_cards':
+        print('send InterventionCard')
+        emit('InterventionCard', card)
+    elif type == 'information_cards':
+        print('send InformationCard')
+        emit('InformationCard', card)
+    elif type == 'dilemme_cards':
+        print('send DilemmeCard')
+        emit('DilemmeCard', card)
+    else:
+        print('ERROR: type of card not found')
 
 
 @socketio.on('disconnect')
