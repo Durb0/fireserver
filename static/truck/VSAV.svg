@@ -13,11 +13,8 @@
 	.st7{fill:none;stroke:#343E48;stroke-width:5;stroke-linecap:round;stroke-miterlimit:10;}
 	.st8{fill:none;stroke:#343E48;stroke-width:10;stroke-linecap:round;stroke-miterlimit:10;}
 	.st9{fill:none;stroke:#FFD244;stroke-width:10;stroke-miterlimit:10;}
-	.st10{fill:#FFFFFF;}
-	.st11{font-family:'TheFountainofWishes-Regular';}
-	.st12{font-size:36px;}
-	.st13{fill:#5FB9FF;}
-	.st14{opacity:0.1;enable-background:new    ;}
+	.st10{fill:#5FB9FF;}
+	.st11{opacity:0.1;enable-background:new    ;}
 </style>
 <rect x="103.68" y="199.98" class="st0" width="305.41" height="65.34"/>
 <path id="path162_1_" class="st1" d="M330.45,265.32c0-17.39,14.08-31.47,31.47-31.47c17.39,0,31.47,14.08,31.47,31.47H330.45
@@ -48,13 +45,12 @@
 <path class="st2" d="M111.38,272.92h-4.99c-5.52,0-10-4.48-10-10v-4.99c0-5.52,4.48-10,10-10h4.99c5.52,0,10,4.48,10,10v4.99
 	C121.38,268.45,116.9,272.92,111.38,272.92z"/>
 <line class="st9" x1="115.29" y1="145.5" x2="339.99" y2="145.5"/>
-<text transform="matrix(1 0 0 1 148.8304 191.6499)" class="st10 st11 st12">F!RE</text>
-<path id="path184" class="st13" d="M349.87,116.67h-11.22c-2.04,0-3.84,1.31-4.47,3.25l-3.73,11.49h27.62l-3.73-11.49
+<path id="path184" class="st10" d="M349.87,116.67h-11.22c-2.04,0-3.84,1.31-4.47,3.25l-3.73,11.49h27.62l-3.73-11.49
 	C353.71,117.99,351.91,116.67,349.87,116.67z"/>
-<polygon id="polygon186" class="st14" points="358.07,131.41 356.35,126.1 332.17,126.1 330.45,131.41 "/>
-<path id="path184_1_" class="st13" d="M160.51,116.67h-11.22c-2.04,0-3.84,1.31-4.47,3.25l-3.73,11.49h27.62l-3.73-11.49
+<polygon id="polygon186" class="st11" points="358.07,131.41 356.35,126.1 332.17,126.1 330.45,131.41 "/>
+<path id="path184_1_" class="st10" d="M160.51,116.67h-11.22c-2.04,0-3.84,1.31-4.47,3.25l-3.73,11.49h27.62l-3.73-11.49
 	C164.36,117.99,162.55,116.67,160.51,116.67z"/>
-<polygon id="polygon186_1_" class="st14" points="168.71,131.41 166.99,126.1 142.81,126.1 141.09,131.41 "/>
+<polygon id="polygon186_1_" class="st11" points="168.71,131.41 166.99,126.1 142.81,126.1 141.09,131.41 "/>
 <path class="st5" d="M320.45,237.43h-27.37c-5.52,0-10-4.48-10-10v-58.07c0-5.52,4.48-10,10-10h27.37c5.52,0,10,4.48,10,10v58.07
 	C330.45,232.95,325.97,237.43,320.45,237.43z"/>
 </svg>
