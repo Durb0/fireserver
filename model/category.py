@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import Session
 
+
 from . import main
+#import main
 
 class Category(main.Base):
     __tablename__ = 'categories'

@@ -1,10 +1,15 @@
-from sqlalchemy import Column, Integer, Enum, String, ForeignKey, Table
+from sqlalchemy import Column, Integer, Enum, String, ForeignKey, Table, and_
 from sqlalchemy.orm import relationship, Session
 
 
-from . import main
-from . import enums
-from . import category
+if __name__ != "__main__":
+    from . import main
+    from . import enums
+    from . import category
+else:
+    import main
+    import category
+    import enums
 
 
 
@@ -60,10 +65,18 @@ class InterventionCard(Card):
     ratio_success = Column(Integer)
     ratio_critical_success = Column(Integer)
     ratio_critical_failure = Column(Integer)
+    ratio_critical_refusal = Column(Integer)
     categories = relationship("Category", secondary=association_intervention_category)
 
     def __repr__(self):
         return f'InterventionCard({self.id})'
+
+    def addCategories(self,cats):
+        for cat in cats:
+            self.categories.append(cat)
+    
+    def addCategory(self,cat):
+        self.categories.append(cat)
 
     def toJson(self):
         return {
@@ -75,6 +88,7 @@ class InterventionCard(Card):
             'ratio_success': self.ratio_success,
             'ratio_critical_success': self.ratio_critical_success,
             'ratio_critical_failure': self.ratio_critical_failure,
+            'ratio_critical_refusal': self.ratio_critical_refusal,
             'categories': [category.toJson() for category in self.categories]
         }
 
@@ -166,8 +180,14 @@ def removeOpTest():
             session.delete(information_card)
         session.commit()
 
-if __name__ == "__main__":
-    removeOpTest()
-    createSomeCard()
-    createSomeRelation()
+
+if __name__ == '__main__':
+    main.Base.metadata.create_all(main.Engine)
+    
+    with Session(main.Engine) as session:
+        session.query(InterventionCard).filter(InterventionCard.id == 12).first().addCategory(category.Category.get('FIRE'))
+        session.query(InterventionCard).filter(InterventionCard.id == 16).first().addCategory(category.Category.get('FIRE'))
+        session.query(InterventionCard).filter(InterventionCard.id == 17).first().addCategories([category.Category.get('FIRE'), category.Category.get('PERSONNAL_ASSISTANCE')])
+        
+        session.commit()
 

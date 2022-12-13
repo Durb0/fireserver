@@ -59,6 +59,9 @@ def drawNextCard(id:int, level:int):
     lvl = RelationLevel.intToStr(level)
     with Session(Engine) as session:
         nextCards = session.query(AssociationNextCard).filter(AssociationNextCard.card_id == id, AssociationNextCard.level == lvl).all()
+        print("next cards", nextCards)
+        if len(nextCards) == 0:
+            return None, None
         nextCard = random.choice(nextCards)
         #the card can be an interventionCard, a InformationCard or a DilemmeCard
         card = session.query(InterventionCard).filter(InterventionCard.id == nextCard.next_card_id).first() or session.query(InformationCard).filter(InformationCard.id == nextCard.next_card_id).first() or session.query(DilemmeCard).filter(DilemmeCard.id == nextCard.next_card_id).first()
