@@ -50,11 +50,12 @@ def getOptions():
         })
 
 @socketio.on('drawInterventionBaseCard')
-def handle_drawInterventionBaseCard():
+def handle_drawInterventionBaseCard(blackList):
     print('drawCard')
-    card = drawInterventionBaseCard()
-    print('send drawCard')
-    emit('InterventionCard', card)
+    card = drawInterventionBaseCard(blackList)
+    if card:
+        print('send InterventionBaseCard')
+        emit('InterventionCard', card)
 
 @socketio.on('drawNextCard')
 def handle_drawNextCard(id, level):

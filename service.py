@@ -2,6 +2,7 @@ from typing import List
 from model.main import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import func
+from sqlalchemy import and_
 
 import random
 
@@ -35,12 +36,20 @@ def getListOfTruckFile():
     import os
     return [f.split('.')[0] for f in os.listdir('static/truck') if os.path.isfile(os.path.join('static/truck', f))]
 
-def drawInterventionBaseCard():
+def drawInterventionBaseCard(blackList):
     from model.card import InterventionCard
     from model.enums import PositionCard
 
     with Session(Engine) as session:
-        card = session.query(InterventionCard).filter(InterventionCard.position == PositionCard.BASE).order_by(func.random()).first()
+        basecards = session.query(InterventionCard).filter(
+            and_(
+                InterventionCard.position == PositionCard.BASE,
+                InterventionCard.title.notin_(blackList)
+            )
+            ).order_by(func.random()).all()
+        if len(basecards) == 0:
+            return None
+        card = random.choice(basecards) 
         return card.toJson()
 
 def drawNextCard(id:int, level:int):
