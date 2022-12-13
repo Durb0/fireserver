@@ -14,9 +14,6 @@
 	.st8{fill:#343E48;stroke:#343E48;stroke-width:5;stroke-linecap:round;stroke-miterlimit:10;}
 	.st9{fill:#343E48;stroke:#343E48;stroke-width:10;stroke-linecap:round;stroke-miterlimit:10;}
 	.st10{fill:#FFD242;stroke:#FFD244;stroke-width:10;stroke-miterlimit:10;}
-	.st11{fill:#FFFFFF;}
-	.st12{font-family:'TheFountainofWishes-Regular';}
-	.st13{font-size:36px;}
 </style>
 <rect x="103.68" y="199.98" class="st0" width="305.41" height="65.34"/>
 <path id="path162_1_" class="st1" d="M330.45,265.32c0-17.39,14.08-31.47,31.47-31.47c17.39,0,31.47,14.08,31.47,31.47
@@ -52,5 +49,4 @@
 <path class="st2" d="M111.38,272.92h-4.99c-5.52,0-10-4.48-10-10v-4.99c0-5.52,4.48-10,10-10h4.99c5.52,0,10,4.48,10,10v4.99
 	C121.38,268.45,116.9,272.92,111.38,272.92z"/>
 <line class="st10" x1="115.29" y1="145.5" x2="339.99" y2="145.5"/>
-<text transform="matrix(1 0 0 1 148.8304 191.6499)" class="st11 st12 st13">F!RE</text>
 </svg>
