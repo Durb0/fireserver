@@ -11,7 +11,7 @@ class RelationLevel(Enum):
     SUCCESS = 10
     FAILURE = -10
     CRITICAL_FAILURE = -20
-    REFUSAL = 0
+    REFUSAL = -15
     CRITICAL_REFUSAL = -30
 
     def get(str: str):
@@ -40,7 +40,7 @@ class RelationLevel(Enum):
             return "FAILURE"
         elif int == -20:
             return "CRITICAL_FAILURE"
-        elif int == 0:
+        elif int == -15:
             return "REFUSAL"
         elif int == -30:
             return "CRITICAL_REFUSAL"
