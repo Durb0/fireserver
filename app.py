@@ -55,7 +55,7 @@ def handle_drawInterventionBaseCard(blackList):
         emit('InterventionCard', card)
 
 @socketio.on('drawNextCard')
-def handle_drawNextCard(id, level):
+def handle_drawNextCard(id:int, level:int):
     print('drawNextCard')
     print(id, level)
     card, type = drawNextCard(id, level)
