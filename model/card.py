@@ -14,6 +14,16 @@ else:
 
 
 class Card(main.Base):
+    """
+        Cette classe permet de definir une carte
+
+        Attributes:
+            id (int): l'id de la carte
+            title (str): le titre de la carte
+            description (str): la description de la carte
+            position (PositionCard): la position de la carte
+            time_before_trigger (int): le temps avant declenchement de la carte
+    """
     __tablename__ = 'cards'
 
     id = Column(Integer, primary_key=True)
@@ -35,6 +45,13 @@ class Card(main.Base):
         }
 
 class InformationCard(Card):
+    """
+        Cette classe permet de definir une carte d'information
+
+        Attributes:
+            id (int): l'id de la carte
+            actions (List[Action]): la liste des actions de la carte
+    """
     __tablename__ = 'information_cards'
 
     id = Column(Integer, ForeignKey(Card.id), primary_key=True)
@@ -52,6 +69,7 @@ class InformationCard(Card):
             'time_before_trigger': self.time_before_trigger
         }
 
+# Table d'association entre une carte d'intervention et une categorie 
 association_intervention_category = Table(
     'association_intervention_category', main.Base.metadata,
     Column('category_name', String, ForeignKey(category.Category.name)),
@@ -59,6 +77,17 @@ association_intervention_category = Table(
 )
 
 class InterventionCard(Card):
+    """
+        Cette classe permet de definir une carte d'intervention
+
+        Attributes:
+            id (int): l'id de la carte
+            ratio_success (int): le ratio de succes de la carte
+            ratio_critical_success (int): le ratio de succes critique de la carte
+            ratio_critical_failure (int): le ratio d'echec critique de la carte
+            ratio_critical_refusal (int): le ratio de refus critique de la carte
+            categories (List[Category]): la liste des categories de la carte
+    """
     __tablename__ = 'intervention_cards'
 
     id = Column(Integer, ForeignKey(Card.id), primary_key=True)
@@ -94,6 +123,14 @@ class InterventionCard(Card):
 
 
 class DilemmeCard(Card):
+    """
+        Cette classe permet de definir une carte de dilemme
+
+        Cette classe n'est pas encore implementee
+
+        Attributes:
+            id (int): l'id de la carte
+    """
     __tablename__ = 'dilemme_cards'
 
     id = Column(Integer, ForeignKey(Card.id), primary_key=True)
@@ -111,83 +148,11 @@ class DilemmeCard(Card):
         }
 
 class AssociationNextCard(main.Base):
+    """
+        Cette classe permet de definir une association entre une carte et une autre carte
+    """
     __tablename__ = 'association_next_card'
 
     card_id = Column(Integer, ForeignKey(Card.id), primary_key=True)
     level = Column(Enum(enums.RelationLevel))
     next_card_id = Column(Integer, ForeignKey(Card.id), primary_key=True)
-
-
-def createSomeCard():
-
-    #create 1 information card, 1 intervention card and 1 dilemme card
-    cards = [
-        InformationCard(title = 'OPE_TEST', description = 'CRITICAL_SUCCESS', position = enums.PositionCard.END, time_before_trigger = 0),
-        InformationCard(title = 'OPE_TEST', description = 'CRITICAL_FAILURE', position = enums.PositionCard.END, time_before_trigger = 0),
-        InformationCard(title = 'OPE_TEST', description = 'FAILURE', position = enums.PositionCard.END, time_before_trigger = 2),
-        InformationCard(title = 'OPE_TEST', description = 'SUCCESS', position = enums.PositionCard.END, time_before_trigger = 2),
-        InformationCard(title = 'OPE_TEST', description = 'REFUSAL', position = enums.PositionCard.END, time_before_trigger = 2),
-        InformationCard(title = 'OPE_TEST', description = 'CRITICAL_REFUSAL', position = enums.PositionCard.END, time_before_trigger = 0),
-        InterventionCard(title = 'OPE_TEST', description = 'GOGOGO', position = enums.PositionCard.BASE, time_before_trigger = 0, ratio_success = 50, ratio_critical_success = 20, ratio_critical_failure = 50, categories = [category.Category.get('FIRE'), category.Category.get('ROAD_ACCIDENT')]),
-    ]
-
-    with Session(main.Engine) as session:
-        for card in cards:
-            session.add(card)
-            print(f'Added {card.title}')
-        session.commit()
-
-
-def createSomeRelation():
-
-    #get id of intervention card with title = 'OPE_TEST'
-    with Session(main.Engine) as session:
-        intervention_card = session.query(InterventionCard).filter_by(title='OPE_TEST').first()
-
-        #get id of informations cards with title = 'OPE_TEST'
-        information_cards = session.query(InformationCard).filter_by(title='OPE_TEST').all()
-
-        for information_card in information_cards:
-            print(enums.RelationLevel[information_card.description])
-            #create relation between intervention card and informations cards
-            session.add(AssociationNextCard(card_id = intervention_card.id, level = enums.RelationLevel[information_card.description], next_card_id = information_card.id))
-        session.commit()
-
-
-def removeOpTest():
-    
-
-    #remove all cards with title = 'OPE_TEST' and all 
-    with Session(main.Engine) as session:
-
-
-        intervention_cards = session.query(InterventionCard).filter_by(title='OPE_TEST').all()
-        information_cards = session.query(InformationCard).filter_by(title='OPE_TEST').all()
-
-        #remove all relations between intervention cards and informations cards
-        for intervention_card in intervention_cards:
-            session.query(AssociationNextCard).filter_by(card_id = intervention_card.id).delete()
-        
-        for information_card in information_cards:
-            session.query(AssociationNextCard).filter_by(next_card_id = information_card.id).delete()
-
-        for intervention_card in intervention_cards:
-            session.delete(intervention_card)
-        session.commit()
-
-        
-        for information_card in information_cards:
-            session.delete(information_card)
-        session.commit()
-
-
-if __name__ == '__main__':
-    main.Base.metadata.create_all(main.Engine)
-    
-    with Session(main.Engine) as session:
-        session.query(InterventionCard).filter(InterventionCard.id == 12).first().addCategory(category.Category.get('FIRE'))
-        session.query(InterventionCard).filter(InterventionCard.id == 16).first().addCategory(category.Category.get('FIRE'))
-        session.query(InterventionCard).filter(InterventionCard.id == 17).first().addCategories([category.Category.get('FIRE'), category.Category.get('PERSONNAL_ASSISTANCE')])
-        
-        session.commit()
-

@@ -3,9 +3,20 @@ from sqlalchemy.orm import Session
 
 
 from . import main
-#import main
+
+
 
 class Category(main.Base):
+    """
+        Cette classe permet de definir une categorie
+
+        Attributes:
+            name (str): le nom de la categorie
+            icon (str): l'icone de la categorie
+            color (str): la couleur de la categorie
+            is_gain (int): si la categorie est un gain
+    """
+
     __tablename__ = 'categories'
 
     name = Column(String, primary_key=True)
@@ -14,6 +25,9 @@ class Category(main.Base):
     is_gain = Column(Integer)
 
     def get(name : str):
+        """
+            Cette methode permet de recuperer une categorie en fonction de son nom
+        """
         with Session(main.Engine) as session:
             return session.query(Category).filter(Category.name == name).first()
 
@@ -29,6 +43,9 @@ class Category(main.Base):
         return f'Category({self.name})'
 
 def createCategories():
+    """
+        Cette fonction permet de creer les categories par defaut
+    """
     categories = [
         Category(name = 'FIRE',                 icon = 'faFire',        color = 'red',          is_gain = 1),
         Category(name = 'ROAD_ACCIDENT',        icon = 'faCarBurst',    color = 'orange',       is_gain = 1),
@@ -41,14 +58,3 @@ def createCategories():
     ]
 
     return categories
-
-if __name__ == "__main__":
-    main.Base.metadata.create_all(main.Engine)
-
-    with Session(main.Engine) as session:
-        categories = createCategories()
-        for category in categories:
-            if session.query(Category).filter_by(name=category.name).first() is None:
-                session.add(category)
-                print(f'Added {category.name}')
-        session.commit()

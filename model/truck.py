@@ -4,6 +4,8 @@ from sqlalchemy.orm import relationship, Session
 from . import main
 from . import category
 
+
+# Table d'association entre les camions et les categories
 association_truck_category = Table(
     'association_truck_category', main.Base.metadata,
     Column('category_name', String, ForeignKey(category.Category.name)),
@@ -11,6 +13,15 @@ association_truck_category = Table(
 )
 
 class Truck(main.Base):
+    """
+        Cette classe permet de definir un camion
+
+        Attributes:
+            name (str): le nom du camion
+            nb_seat_min (int): le nombre de places minimum
+            nb_seat_max (int): le nombre de places maximum
+            categories (List[Category]): la liste des categories du camion
+    """
     __tablename__ = 'trucks'
 
     name = Column(String, primary_key=True)
@@ -27,7 +38,11 @@ class Truck(main.Base):
         }
 
 def createTrucks():
+    """
+        Cette fonction permet de creer les camions
+    """
 
+    # Réccupération des categories
     fire = category.Category.get('FIRE')
     road_accident = category.Category.get('ROAD_ACCIDENT')
     social = category.Category.get('SOCIAL')
@@ -37,6 +52,7 @@ def createTrucks():
     multi_purpose = category.Category.get('MULTI_PURPOSE')
     water = category.Category.get('WATER')
 
+    # Création des camions
     trucks = [
         Truck(name = 'VL',  nb_seat_min = 2,nb_seat_max = 5,categories = [social, speed]),
         Truck(name = 'FPT', nb_seat_min = 4,nb_seat_max = 6,categories = [fire]),

@@ -1,12 +1,19 @@
 from enum import Enum
 
+
 class PositionCard(Enum):
+    """
+        Cette classe permet de definir les positions d'une carte
+    """
     BASE = "BASE"
     MID = "MID"
     END = "END"
     BRIEF = "BRIEF"
 
 class RelationLevel(Enum):
+    """
+        Cette classe permet de definir les niveaux de relations
+    """
     CRITICAL_SUCCESS = 20
     SUCCESS = 10
     FAILURE = -10

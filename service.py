@@ -6,7 +6,14 @@ from sqlalchemy import and_
 
 import random
 
+
 def getCategories():
+    """
+        Cette fonction permet de recuperer la liste des categories
+
+        Returns:
+            List[Category]: la liste des categories
+    """
     from model.category import Category
     list = []
     with Session(Engine) as session:
@@ -17,6 +24,15 @@ def getCategories():
 
 
 def getTruck(str):
+    """
+        Cette fonction permet de recuperer un camion en fonction de son nom
+
+        Args:
+            str (str): le nom du camion
+
+        Returns:
+            Truck: le camion
+    """
     from model.truck import Truck
 
     with Session(Engine) as session:
@@ -25,6 +41,12 @@ def getTruck(str):
 
 
 def getListOfTruckName():
+    """
+        Cette fonction permet de recuperer la liste des noms des camions
+
+        Returns:
+            List[str]: la liste des noms des camions
+    """
     from model.truck import Truck
 
     with Session(Engine) as session:
@@ -32,11 +54,25 @@ def getListOfTruckName():
         return [truck.name for truck in trucks]
 
 def getListOfTruckFile():
-    #return the list of truck in static/truck
+    """
+        Cette fonction permet de recuperer la liste des noms des fichiers des camions
+
+        Returns:
+            List[str]: la liste des noms des fichiers des camions
+    """
     import os
     return [f.split('.')[0] for f in os.listdir('static/truck') if os.path.isfile(os.path.join('static/truck', f))]
 
 def drawInterventionBaseCard(blackList):
+    """
+        Cette fonction permet de tirer une carte de base d'intervention en fonction de la liste des cartes deja tirees
+
+        Args:
+            blackList (List[str]): la liste des cartes deja tirees
+
+        Returns:
+            InterventionCard: la carte tiree
+    """
     from model.card import InterventionCard
     from model.enums import PositionCard
 
@@ -53,8 +89,19 @@ def drawInterventionBaseCard(blackList):
         return card.toJson()
 
 def drawNextCard(id:int, level:int):
+    """
+        Cette fonction permet de tirer une carte suivante en fonction de la carte precedente et du niveau de relation
+        
+        Args:
+            id (int): l'id de la carte precedente
+            level (int): le niveau de relation
+        
+        Returns:
+            Card: la carte tiree
+
+    """
     from model.card import InterventionCard, AssociationNextCard, InformationCard, DilemmeCard
-    from model.enums import PositionCard, RelationLevel
+    from model.enums import RelationLevel
 
     lvl = RelationLevel.intToStr(level)
     with Session(Engine) as session:
@@ -63,15 +110,5 @@ def drawNextCard(id:int, level:int):
         if len(nextCards) == 0:
             return None, None
         nextCard = random.choice(nextCards)
-        #the card can be an interventionCard, a InformationCard or a DilemmeCard
         card = session.query(InterventionCard).filter(InterventionCard.id == nextCard.next_card_id).first() or session.query(InformationCard).filter(InformationCard.id == nextCard.next_card_id).first() or session.query(DilemmeCard).filter(DilemmeCard.id == nextCard.next_card_id).first()
         return card.toJson(), card.__tablename__
-
-
-
-if __name__ == "__main__":
-    print(getCategories())
-    print('###################################"')
-    print(drawInterventionBaseCard())
-    print('###################################"')
-    print(getTruck('VSAV'))
